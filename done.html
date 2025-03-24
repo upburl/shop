@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css">
+    <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-regular.css">
+  <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-light.css">
+     <title>Order Confirmation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            padding: 0;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            background: #fff;
+        }
+
+        .back-button {
+            font-size: 22px;
+            margin-right: 10px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Success Section */
+        .success {
+            text-align: center;
+            padding: 30px 20px;
+            background: #fff;
+        }
+
+        .checkmark-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .checkmark {
+            width: 100px;
+            height: 100px;
+        }
+        .order-success {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order-id {
+            color: #e91e63;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 15px;
+            background: #fff;
+            margin: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .section h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+            text-transform: uppercase;
+        }
+
+        .section p {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .change-btn {
+            float: right;
+            padding: 5px 10px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            cursor: pointer;
+            color: #333;
+        }
+
+        /* Info Note */
+        .info-note {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .info-note::before {
+            content: "ⓘ";
+            margin-right: 5px;
+            font-size: 14px;
+        }
+
+        /* Delivery */
+        .delivery {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #e91e63;
+            font-weight: bold;
+            background: #fff;
+            margin: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .delivery-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        /* Price Summary */
+        .price-summary p {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: black;
+            margin: 8px 0;
+        }
+
+        .promo {
+            color: green;
+            font-weight: bold;
+        }
+
+        hr {
+            border: 0.5px solid #ddd;
+            margin: 10px 0;
+        }
+
+        .final-price {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <span class="back-button" onclick="location.replace('index.html')"><i class="fas fa-arrow-left"></i></span>
+        Order Placed
+    </div>
+
+    <!-- Success Message -->
+    <div class="success">
+        <div class="checkmark-container">
+            <img src="done.gif" alt="Success" class="checkmark">
+         </div>
+        <p class="order-success">Your Order is Successful</p>
+        <p class="order-id">Order Id: #<span id="order-id"></span></p>
+    </div>
+
+    <!-- Sender Info -->
+    <div class="section">
+        <h3>Receiver Info <button class="change-btn">Confirmed</button></h3>
+        <p><span id="sender-name"></span></p>
+        <p><span id="sender-phone"></span></p>
+        <p style="color:gray;" class="info-note">This info will be displayed on the package sent to customer.</p>
+    </div>
+
+    <!-- Estimated Delivery -->
+    <div class="delivery">
+        <span class="delivery-icon">🚚</span>
+        <p>Estimated Delivery by <span id="delivery-date"></span></p>
+    </div>
+
+    <!-- Price Summary -->
+    <div class="section">
+        <h3>Price Summary</h3>
+        <div class="price-summary">
+            <p>Product Charges <span>৳<span id="product-price"></span></span></p>
+            <p>Shipping Charges <span>৳<span id="shipping-charge"></span></span></p>
+            <p class="promo"><span id="promo-code"></span> <span>-৳<span id="discount"></span></span></p>
+        </div>
+        <hr>
+        <p class="final-price">Order Total <span>৳<span id="order-total"></span></span></p>
+        <p class="final-price">Final Customer Price <span>৳<span id="final-price"></span></span></p>
+    </div>
+
+    <script>
+        // Order Data
+        const orderDetails = {
+            orderId: "123654789",
+            senderName: "John Doe",
+            senderPhone: "9128379129",
+            deliveryDate: "3rd Mar, Tuesday",
+            productPrice: 500,
+            shippingCharge: 40,
+            promoCode: "Get25",
+            discount: 100
+        };
+
+        // Calculate Totals
+        const orderTotal = orderDetails.productPrice + orderDetails.shippingCharge;
+        const finalPrice = orderTotal - orderDetails.discount;
+
+        // Insert Data into HTML
+        document.getElementById("order-id").textContent = orderDetails.orderId;
+        document.getElementById("sender-name").textContent = orderDetails.senderName;
+        document.getElementById("sender-phone").textContent = orderDetails.senderPhone;
+        document.getElementById("delivery-date").textContent = orderDetails.deliveryDate;
+        document.getElementById("product-price").textContent = orderDetails.productPrice;
+        document.getElementById("shipping-charge").textContent = orderDetails.shippingCharge;
+        document.getElementById("promo-code").textContent = `Promo - ${orderDetails.promoCode}`;
+        document.getElementById("discount").textContent = orderDetails.discount;
+        document.getElementById("order-total").textContent = orderTotal;
+        document.getElementById("final-price").textContent = finalPrice;
+    </script>
+
+</body>
+</html>

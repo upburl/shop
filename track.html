@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking</title>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css">
+    <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-regular.css">
+  <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-light.css">
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #ffffff;
+            color: #333;
+        }
+
+        /* Invoice Header */
+        .invoice-header {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+          
+        }
+
+        .invoice-id {
+            color: #8d8562;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 20px 0;
+            padding: 10px 0;
+        }
+
+        /* The connecting progress bar */
+        .progress-bar {
+            position: absolute;
+            height: 4px;
+            background: lightgray;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 0;
+            left: 10%; /* Start from the first checkmark */
+            width: 80%; /* Span across all checkmarks */
+        }
+
+        /* The filled portion of the progress bar */
+        .progress-bar-filled {
+            position: absolute;
+            height: 4px;
+            background: green;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            left: 10%;
+            transition: width 0.3s ease;
+        }
+
+        /* Steps (Checkmarks) */
+        .step {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 2px solid lightgray;
+            border-radius: 50%;
+            z-index: 2;
+            position: relative;
+          padding:4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .step i {
+                 font-size: 24px;
+       
+            color: lightgray;
+        }
+
+        .step.active {
+            border-color: white;
+        }
+
+        .step.active i {
+            color: green;
+        }
+
+        /* Order Status Labels */
+        .order-status-labels {
+            display: flex;
+            justify-content: space-evenly;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .order-status-labels p {
+            width: 25%;
+            text-align: center;
+        }
+
+        /* Order Details */
+        .section-title {
+            color: #435c67;
+            margin-top: 20px;
+        }
+
+        .order-details, .summary, .items {
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .items {
+            border: 1px solid #ddd;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+
+        /* Summary Section */
+        .summary {
+            font-size: 16px;
+        }
+
+        .summary p, .summary h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .summary h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .summary p span, .summary h3 span {
+            font-weight: normal;
+        }
+   header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+     margin: -20px;
+     margin-bottom:10px;
+    padding: 20px;
+    background: white;
+    font-size: 24px;
+    position: relative;
+    overflow: hidden;
+}
+.icon i, .cart-icon i {
+    font-size: 30px;
+}
+
+.cart-icon {
+  color:white;
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: white;
+    color: white;
+  
+    font-size: 14px;
+    border-radius: 50%;
+    padding: 4px 7px;
+}
+@keyframes rotate-shake {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-10deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+}
+
+.cart-shaking {
+    animation: rotate-shake 0.5s ease-in-out;
+}
+.truck-icon {
+    position: relative;
+    transition: transform 2s linear;
+}h2 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body>
+   <header>
+        <div class="icon truck-icon">
+            <i onclick="window.location.href='orderlist.html'" id="tracking" class="fas fa-arrow-left"></i>
+        </div>
+        <h2>VitaGlow</h2>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count"></span>
+        </div>
+    </header>
+
+    <div class="invoice-header">
+        <h2>INVOICE <span class="invoice-id">#Y34XDH</span></h2>
+            <p>Expected Arrival: 01/12/19</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+        <div class="progress-bar-filled"></div>
+        <div class="step" data-step="1"><i class="fa-duotone fa-regular fa-badge-check"></i></div>
+        <div class="step" data-step="2"><i class="fa-duotone fa-regular fa-badge-check"></i></div>
+        <div class="step" data-step="3"><i class="fa-duotone fa-regular fa-badge-check"></i></div>
+        <div class="step" data-step="4"><i class="fa-duotone fa-regular fa-badge-check"></i></div>
+    </div>
+
+    <div class="order-status-labels">
+        <p>Order Processed</p>
+        <p>Order Shipped</p>
+        <p>Order In Route</p>
+        <p>Order Arrived</p>
+    </div>
+
+    <!-- Order Details -->
+    <h3 class="section-title">Order Details</h3>
+    <div class="order-details">
+        <p><i class="fa fa-user"></i> Sara</p>
+        <p><i class="fa fa-phone"></i> +91 8608315423</p>
+        <p><i class="fa fa-map-marker-alt"></i> Coimbatore, Tamilnadu</p>
+    </div>
+
+    <!-- Item Details -->
+    <h3 class="section-title">Item Details</h3>
+    <div class="items"></div>
+
+    <!-- Order Summary -->
+    <div class="summary">
+        <p>Order Items: <span id="order-items"></span></p>
+        <p>Order ID: <span>ID786753</span></p>
+        <p>Sub Total: <span id="subtotal"></span></p>
+        <p>Delivery Fee: <span id="delivery-fee">$3.00</span></p>
+        <p>Tax: <span id="tax">$1.00</span></p>
+        <h3>Total: <span id="total"></span></h3>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const orderStatus = 2; // Change this value (1-4) to update order status dynamically
+            const products = [
+                { name: "Aurora 3.5ML", quantity: 2, price: 120, image: "p1.jpg" },
+                { name: "Cloud 3.5ML", quantity: 1, price: 120, image: "p2.jpg" }
+            ];
+            const deliveryFee = 3.00;
+            const tax = 1.00;
+
+            // Update order status
+            document.querySelectorAll(".step").forEach(step => {
+                const stepValue = parseInt(step.getAttribute("data-step"));
+                if (stepValue <= orderStatus) {
+                    step.classList.add("active");
+                }
+            });
+
+            // Update progress bar
+            const progressBarFilled = document.querySelector(".progress-bar-filled");
+            const totalSteps = 4;
+            const stepWidthPercentage = 80 / (totalSteps - 1); // 80% width divided by 3 segments
+            const filledWidth = (orderStatus - 1) * stepWidthPercentage;
+            progressBarFilled.style.width = `${filledWidth}%`;
+
+            // Populate product list
+            const itemsContainer = document.querySelector(".items");
+            let subtotal = 0;
+            let totalItems = 0;
+
+            products.forEach(product => {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("item");
+                itemElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <div>
+                        <p>${product.name}</p>
+                        <p>${product.quantity} × $${product.price.toFixed(2)}</p>
+                    </div>
+                `;
+                itemsContainer.appendChild(itemElement);
+
+                subtotal += product.quantity * product.price;
+                totalItems += product.quantity;
+            });
+
+            // Update totals
+            document.getElementById("order-items").textContent = totalItems;
+            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById("total").textContent = `$${(subtotal + deliveryFee + tax).toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>

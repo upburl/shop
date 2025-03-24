@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css">
+      <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-regular.css">
+  <link rel="stylesheet" href=
+  "https://site-assets.fontawesome.com/releases/v6.7.1/css/duotone-light.css">
+  <title>Order Search</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+        .search-container input {
+            border: none;
+            padding: 10px;
+            flex: 1;
+            outline: none;
+        }
+        .search-container button {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .order-box {
+            text-align: left;
+            margin: 20px auto;
+            max-width: 400px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        h3 {
+            margin-bottom: 5px;
+        }
+        .track-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 2px solid black;
+            background: white;
+            color: black;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+        .track-btn:hover {
+            background: black;
+            color: white;
+        }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    font-size: 24px;
+    position: relative;
+    overflow: hidden;
+}
+.icon i, .cart-icon i {
+    font-size: 30px;
+}
+
+.cart-icon {
+    position: relative;
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    font-size: 14px;
+    border-radius: 50%;
+    padding: 4px 7px;
+}
+@keyframes rotate-shake {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-10deg); }
+    40% { transform: rotate(10deg); }
+    60% { transform: rotate(-10deg); }
+    80% { transform: rotate(10deg); }
+}
+
+.cart-shaking {
+    animation: rotate-shake 0.5s ease-in-out;
+}
+.truck-icon {
+    position: relative;
+    transition: transform 2s linear;
+}h2 {
+    font-size: 18px;
+    margin-top: 10px;
+}
+    </style>
+</head>
+<body>
+ <header>
+        <div class="icon truck-icon">
+            <i onclick="window.location.href='index.html'" id="tracking" class="fas fa-arrow-left"></i>
+        </div>
+        <h2>VitaGlow</h2>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count">3</span>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Type Phone Number (ex. 01888..)">
+        <button onclick="searchOrder()"><i class="fa-duotone fa-regular fa-magnifying-glass-location"></i></button>
+    </div>
+
+    <div id="orderDetails"></div>
+
+    <script>
+        const orders = [
+            { id: "01888396332", date: "October 17, 2023", status: "Delivered", method: "Standard", deliveryDate: "October 19, 2023", tracking: "123456789", name: "John Newman", country: "US", phone: "(415) 315-9111" },
+            { id: "01888396332", date: "October 17, 2023", status: "Returned", method: "Express", deliveryDate: "October 21, 2023", tracking: "123456789", name: "John Newman", country: "US", phone: "(415) 315-9111" },
+            { id: "65507676108", date: "October 18, 2023", status: "Shipped", method: "Express", deliveryDate: "October 20, 2023", tracking: "987654321", name: "Alice Brown", country: "US", phone: "(310) 678-4321" },
+            { id: "65507676109", date: "October 19, 2023", status: "Processing", method: "Standard", deliveryDate: "October 22, 2023", tracking: "567890123", name: "Robert Smith", country: "US", phone: "(212) 555-7890" }
+        ];
+
+        function searchOrder() {
+            const input = document.getElementById("searchInput").value.trim();
+            const orderDetails = document.getElementById("orderDetails");
+            orderDetails.innerHTML = "";
+
+            const matchingOrders = orders.filter(order => order.id === input);
+
+            if (matchingOrders.length > 0) {
+                matchingOrders.forEach(order => {
+                    orderDetails.innerHTML += `
+                        <div class="order-box">
+                            <h3>Standard Order</h3>
+                            <p><strong>Order #${order.id}</strong> | ${order.date}</p>
+                            <p><strong>Status:</strong> ${order.status}</p>
+                            <p><strong>Shipping Method:</strong> ${order.method}</p>
+                            <p><strong>Delivery By:</strong> ${order.deliveryDate}</p>
+                            <p><strong>Tracking #:</strong> ${order.tracking}</p>
+                            <p><strong>Ship To:</strong> ${order.name}</p>
+                            <p>${order.country}</p>
+                            <p>${order.phone}</p>
+                            <button class="track-btn" onclick="window.location.href='track.html'">View tracking info</button>
+                        </div>
+                    `;
+                });
+            } else {
+                orderDetails.innerHTML = "<p>No orders found.</p>";
+            }
+        }
+  const cartIcon = document.querySelector(".cart-icon");
+    cartIcon.addEventListener("click", () => {
+        cartIcon.classList.add("cart-shaking");
+        setTimeout(() => {
+            cartIcon.classList.remove("cart-shaking");
+                 location.replace('cart.html');
+       
+        }, 500);
+    });
+    </script>
+
+</body>
+</html>
